@@ -1,11 +1,14 @@
-package com.rbobko.spiralproject.service;
+package com.rbobko.spiralproject.service.card.dailyquote;
 
 import com.rbobko.spiralproject.model.Card;
 import com.rbobko.spiralproject.model.DailyQuoteCard;
+import com.rbobko.spiralproject.service.QuoteService;
+import com.rbobko.spiralproject.service.card.CardFeedProvider;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +27,7 @@ public class DailyQuoteCardService implements CardFeedProvider {
     }
 
     @Transactional(readOnly = true)
-    public List<Card> getCardFeed() {
+    public List<Card> getCardFeed(final HttpServletRequest request) {
         LocalDate today = LocalDate.now(ZoneOffset.UTC);
         log.debug("Generating DailyQuoteCard for {}", today);
 

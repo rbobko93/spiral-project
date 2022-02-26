@@ -1,8 +1,9 @@
 package com.rbobko.spiralproject.web;
 
 import com.rbobko.spiralproject.model.Card;
-import com.rbobko.spiralproject.service.CardService;
+import com.rbobko.spiralproject.service.card.CardService;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +22,9 @@ public class CardController {
     }
 
     @GetMapping("/feed")
-    public ResponseEntity<List<Card>> getCardsFeed() {
+    public ResponseEntity<List<Card>> getCardsFeed(final HttpServletRequest request) {
         log.debug("REST request to get Cards feed");
-        return ResponseEntity.ok(cardService.getCardsFeed());
+        return ResponseEntity.ok(cardService.getCardsFeed(request));
     }
 
 }
