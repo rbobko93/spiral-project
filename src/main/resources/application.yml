@@ -3,8 +3,9 @@ spring:
     url: jdbc:mysql://localhost:33062/spiral?charcterEncoding=utf8&useUnicode=true&serverTimezone=UTC
     username: root
     password: password
-  jpa:
-    hibernate:
-#      ddl-auto: update
   liquibase:
     change-log: classpath:db/db.changelog-master.xml
+
+springdoc:
+  api-docs:
+    path: /api-docs
