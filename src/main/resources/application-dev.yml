@@ -1,3 +1,7 @@
+logging:
+  level:
+    com.rbobko: DEBUG
+
 spring:
   liquibase:
     contexts: dev
