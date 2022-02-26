@@ -1,4 +1,4 @@
-id;message;author
-1;quote1;author1
-2;quote2;author2
-3;quote3;author3
+id;message;author;date
+1;quote1;author1;2022-02-26
+2;quote2;author2;2022-02-27
+3;quote3;author3;2022-02-28
