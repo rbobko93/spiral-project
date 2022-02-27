@@ -1,6 +1,6 @@
 package com.rbobko.spiralproject.mapper;
 
-import com.rbobko.spiralproject.model.DailyQuoteCard;
+import com.rbobko.spiralproject.model.dto.DailyQuoteCard;
 import com.rbobko.spiralproject.model.Quote;
 import org.mapstruct.Mapper;
 

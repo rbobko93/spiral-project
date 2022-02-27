@@ -1,6 +1,6 @@
 package com.rbobko.spiralproject.service.card.dailyquote;
 
-import com.rbobko.spiralproject.model.DailyQuoteCard;
+import com.rbobko.spiralproject.model.dto.DailyQuoteCard;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;
