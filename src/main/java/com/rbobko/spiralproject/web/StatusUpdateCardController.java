@@ -1,12 +1,15 @@
 package com.rbobko.spiralproject.web;
 
+import com.rbobko.spiralproject.mapper.StatusUpdateCardMapper;
 import com.rbobko.spiralproject.model.CardType;
 import com.rbobko.spiralproject.model.StatusUpdateCard;
+import com.rbobko.spiralproject.model.dto.StatusUpdateCardUpdateDTO;
 import com.rbobko.spiralproject.service.card.statusupdate.StatusUpdateCardService;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class StatusUpdateCardController {
 
     private final StatusUpdateCardService statusUpdateCardService;
+    private final StatusUpdateCardMapper statusUpdateCardMapper;
 
-    public StatusUpdateCardController(StatusUpdateCardService statusUpdateCardService) {
+    public StatusUpdateCardController(StatusUpdateCardService statusUpdateCardService,
+        StatusUpdateCardMapper statusUpdateCardMapper) {
         this.statusUpdateCardService = statusUpdateCardService;
+        this.statusUpdateCardMapper = statusUpdateCardMapper;
     }
-
-    // todo add create/update dto
 
     @GetMapping("/{id}")
     public ResponseEntity<StatusUpdateCard> getById(@PathVariable final Long id) {
@@ -43,17 +47,20 @@ public class StatusUpdateCardController {
     }
 
     @PostMapping
-    public ResponseEntity<StatusUpdateCard> createCard(@RequestBody @Valid StatusUpdateCard statusUpdateCard) {
+    public ResponseEntity<StatusUpdateCard> createCard(@RequestBody @Valid StatusUpdateCardUpdateDTO dto) {
         log.debug("REST request to create new StatusUpdateCard");
-        if (Objects.nonNull(statusUpdateCard.getId()) || !statusUpdateCard.getType().equals(CardType.STATUS_UPDATE)) {
+        if (Objects.nonNull(dto.getId())) {
             return ResponseEntity.badRequest().build();
         }
+
+        var statusUpdateCard = statusUpdateCardMapper.toEntity(dto);
 
         return ResponseEntity.ok(statusUpdateCardService.save(statusUpdateCard));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StatusUpdateCard> update(@RequestBody @Valid StatusUpdateCard statusUpdateCard) {
+    public ResponseEntity<StatusUpdateCard> update(@RequestBody @Valid StatusUpdateCardUpdateDTO dto) {
+        var statusUpdateCard = statusUpdateCardMapper.toEntity(dto);
         if (Objects.isNull(statusUpdateCard.getId()) || !statusUpdateCard.getType().equals(CardType.STATUS_UPDATE)) {
             return ResponseEntity.badRequest().build();
         }

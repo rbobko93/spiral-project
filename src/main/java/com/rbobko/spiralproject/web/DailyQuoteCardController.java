@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +32,6 @@ public class DailyQuoteCardController {
         this.dailyQuoteCardService = dailyQuoteCardService;
         this.dailyQuoteCardMapper = dailyQuoteCardMapper;
     }
-
-    // todo add create/update dto
 
     @GetMapping("/{id}")
     public ResponseEntity<DailyQuoteCard> getById(@PathVariable final Long id) {
