@@ -1,4 +1,4 @@
-package com.rbobko.spiralproject.model;
+package com.rbobko.spiralproject.model.dto;
 
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;

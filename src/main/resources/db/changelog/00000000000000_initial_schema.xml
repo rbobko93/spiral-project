@@ -19,6 +19,24 @@
         <constraints nullable="false"/>
       </column>
     </createTable>
+
+    <createTable tableName="status">
+      <column name="id" type="bigint">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="title" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="message" type="clob">
+        <constraints nullable="false"/>
+      </column>
+      <column name="icon_url" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="button_text" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
   </changeSet>
   
 </databaseChangeLog>

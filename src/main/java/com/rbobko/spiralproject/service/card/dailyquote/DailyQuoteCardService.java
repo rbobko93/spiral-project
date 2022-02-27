@@ -1,7 +1,7 @@
 package com.rbobko.spiralproject.service.card.dailyquote;
 
 import com.rbobko.spiralproject.mapper.QuoteMapper;
-import com.rbobko.spiralproject.model.Card;
+import com.rbobko.spiralproject.model.dto.Card;
 import com.rbobko.spiralproject.model.dto.DailyQuoteCard;
 import com.rbobko.spiralproject.service.QuoteService;
 import com.rbobko.spiralproject.service.card.CardFeedProvider;
