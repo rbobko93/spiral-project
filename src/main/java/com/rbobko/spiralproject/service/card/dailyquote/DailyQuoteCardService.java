@@ -1,5 +1,6 @@
 package com.rbobko.spiralproject.service.card.dailyquote;
 
+import com.rbobko.spiralproject.mapper.QuoteMapper;
 import com.rbobko.spiralproject.model.Card;
 import com.rbobko.spiralproject.model.DailyQuoteCard;
 import com.rbobko.spiralproject.service.QuoteService;
@@ -22,11 +23,13 @@ public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
 
     private final QuoteService quoteService;
     private final List<DailyQuoteCardImplementation> dailyQuoteCardImplementations;
+    private final QuoteMapper quoteMapper;
 
     public DailyQuoteCardService(QuoteService quoteService,
-        List<DailyQuoteCardImplementation> dailyQuoteCardImplementations) {
+        List<DailyQuoteCardImplementation> dailyQuoteCardImplementations, QuoteMapper quoteMapper) {
         this.quoteService = quoteService;
         this.dailyQuoteCardImplementations = dailyQuoteCardImplementations;
+        this.quoteMapper = quoteMapper;
     }
 
     @Transactional(readOnly = true)
@@ -39,11 +42,8 @@ public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
         if (quoteOpt.isPresent()) {
             log.debug("Found Quote for {}. Generating DailyQuoteCard", today);
             var quote = quoteOpt.get();
-            // todo convert to mapstruct mapper
-            var dailyCard = DailyQuoteCard.builder()
-                .title(CARD_TITLE)
-                .message(quote.getMessage())
-                .author(quote.getAuthor()).build();
+            var dailyCard = quoteMapper.toCard(quote)
+                .toBuilder().title(CARD_TITLE).build();
 
             if (checkImplementations(dailyCard)) {
                 return List.of(dailyCard);
@@ -57,7 +57,7 @@ public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
         log.debug("Checking implementations for {}", card);
         for (DailyQuoteCardImplementation dailyQuoteCardImplementation : dailyQuoteCardImplementations) {
             if (!dailyQuoteCardImplementation.check(card)) {
-                log.debug("One of the implementations failed. Skipping card: {}", card);
+                log.debug("One of the implementations failed for {}", card);
                 return false;
             }
         }

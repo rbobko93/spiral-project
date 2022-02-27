@@ -1,6 +1,7 @@
 package com.rbobko.spiralproject.service.card;
 
 import com.rbobko.spiralproject.model.Card;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CardService {
 
-    private final List<CardFeedProvider> cardFeedProviders;
+    private final List<CardFeedProvider<?>> cardFeedProviders;
 
-    public CardService(List<CardFeedProvider> cardFeedProviders) {
+    public CardService(List<CardFeedProvider<?>> cardFeedProviders) {
         this.cardFeedProviders = cardFeedProviders;
     }
 
