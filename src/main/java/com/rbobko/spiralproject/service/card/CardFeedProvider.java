@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface CardFeedProvider<T extends Card> {
 
-    List<Card> getCardFeed(final HttpServletRequest request);
+    List<T> getCardFeed(final HttpServletRequest request);
     boolean checkImplementations(T card);
 
 }

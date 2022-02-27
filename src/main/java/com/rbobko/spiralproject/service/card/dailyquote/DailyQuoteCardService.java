@@ -48,13 +48,13 @@ public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
     }
 
     @Transactional(readOnly = true)
-    public List<Card> getCardFeed(final HttpServletRequest request) {
+    public List<DailyQuoteCard> getCardFeed(final HttpServletRequest request) {
         LocalDate today = LocalDate.now(ZoneOffset.UTC);
         log.debug("Fetching DailyQuoteCard for {}", today);
 
         var quoteCardOpt = dailyQuoteCardRepository.findByDate(today);
 
-        return quoteCardOpt.<List<Card>>map(List::of).orElse(Collections.emptyList());
+        return quoteCardOpt.map(List::of).orElse(Collections.emptyList());
     }
 
     public boolean checkImplementations(DailyQuoteCard card) {

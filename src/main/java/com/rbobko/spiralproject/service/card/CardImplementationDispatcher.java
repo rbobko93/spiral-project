@@ -2,8 +2,11 @@ package com.rbobko.spiralproject.service.card;
 
 import com.rbobko.spiralproject.model.Card;
 import com.rbobko.spiralproject.model.CardType;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +26,8 @@ public class CardImplementationDispatcher {
 
     public boolean check(Card card) {
         var type = card.getType();
-        var implementations = cardImplementationTypeMap.get(type);
+        var implementations = Optional.ofNullable(cardImplementationTypeMap.get(type))
+            .orElse(Collections.emptyList());
 
         for (CardImplementation<?> implementation : implementations) {
             if (!implementation.check(card)) {
