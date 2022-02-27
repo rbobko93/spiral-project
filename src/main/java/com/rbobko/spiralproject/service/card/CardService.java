@@ -26,7 +26,7 @@ public class CardService {
     public List<Card> getCardsFeed(final HttpServletRequest request) {
         log.debug("Fetching feed of Cards");
         return retrieveCards(request)
-            .stream().filter(cardImplementationDispatcher::check)
+            .stream().filter(c -> cardImplementationDispatcher.check(c, request))
             .collect(Collectors.toList());
     }
 

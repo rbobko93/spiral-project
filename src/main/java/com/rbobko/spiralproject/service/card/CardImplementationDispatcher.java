@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +25,13 @@ public class CardImplementationDispatcher {
             .collect(Collectors.groupingBy(CardImplementation::getType));
     }
 
-    public boolean check(Card card) {
+    public boolean check(Card card, HttpServletRequest request) {
         var type = card.getType();
         var implementations = Optional.ofNullable(cardImplementationTypeMap.get(type))
             .orElse(Collections.emptyList());
 
         for (CardImplementation<?> implementation : implementations) {
-            if (!implementation.check(card)) {
+            if (!implementation.check(card, request)) {
                 return false;
             }
         }

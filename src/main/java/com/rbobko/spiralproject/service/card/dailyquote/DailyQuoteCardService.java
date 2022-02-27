@@ -57,16 +57,4 @@ public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
         return quoteCardOpt.map(List::of).orElse(Collections.emptyList());
     }
 
-    public boolean checkImplementations(DailyQuoteCard card) {
-        log.debug("Checking implementations for {}", card);
-        for (DailyQuoteCardImplementation dailyQuoteCardImplementation : dailyQuoteCardImplementations) {
-            if (!dailyQuoteCardImplementation.check(card)) {
-                log.debug("One of the implementations failed for {}", card);
-                return false;
-            }
-        }
-
-        return true;
-    }
-
 }

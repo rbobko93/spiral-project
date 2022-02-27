@@ -1,16 +1,12 @@
 package com.rbobko.spiralproject.service.card.statusupdate;
 
-import com.rbobko.spiralproject.model.Card;
-import com.rbobko.spiralproject.model.DailyQuoteCard;
 import com.rbobko.spiralproject.model.StatusUpdateCard;
 import com.rbobko.spiralproject.repository.StatusUpdateCardRepository;
 import com.rbobko.spiralproject.service.card.CardFeedProvider;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,10 +42,5 @@ public class StatusUpdateCardService implements CardFeedProvider<StatusUpdateCar
     public List<StatusUpdateCard> getCardFeed(HttpServletRequest request) {
         log.debug("Fetching StatusUpdate cards");
         return findAll();
-    }
-
-    @Override
-    public boolean checkImplementations(StatusUpdateCard card) {
-        return true;
     }
 }
