@@ -1,14 +1,14 @@
 package com.rbobko.spiralproject.service.card.dailyquote;
 
-import com.rbobko.spiralproject.mapper.QuoteMapper;
-import com.rbobko.spiralproject.model.dto.Card;
-import com.rbobko.spiralproject.model.dto.DailyQuoteCard;
-import com.rbobko.spiralproject.service.QuoteService;
+import com.rbobko.spiralproject.model.Card;
+import com.rbobko.spiralproject.model.DailyQuoteCard;
+import com.rbobko.spiralproject.repository.DailyQuoteCardRepository;
 import com.rbobko.spiralproject.service.card.CardFeedProvider;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,15 +21,30 @@ public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
 
     private static final String CARD_TITLE = "Daily Quote";
 
-    private final QuoteService quoteService;
+    private final DailyQuoteCardRepository dailyQuoteCardRepository;
     private final List<DailyQuoteCardImplementation> dailyQuoteCardImplementations;
-    private final QuoteMapper quoteMapper;
 
-    public DailyQuoteCardService(QuoteService quoteService,
-        List<DailyQuoteCardImplementation> dailyQuoteCardImplementations, QuoteMapper quoteMapper) {
-        this.quoteService = quoteService;
+    public DailyQuoteCardService(
+        List<DailyQuoteCardImplementation> dailyQuoteCardImplementations, DailyQuoteCardRepository dailyQuoteCardRepository) {
         this.dailyQuoteCardImplementations = dailyQuoteCardImplementations;
-        this.quoteMapper = quoteMapper;
+        this.dailyQuoteCardRepository = dailyQuoteCardRepository;
+    }
+
+    public Optional<DailyQuoteCard> findById(final Long id) {
+        return dailyQuoteCardRepository.findById(id);
+    }
+
+    public List<DailyQuoteCard> findAll() {
+        return dailyQuoteCardRepository.findAll();
+    }
+
+    public DailyQuoteCard save(final DailyQuoteCard dailyQuoteCard) {
+        dailyQuoteCard.setTitle(CARD_TITLE);
+        return dailyQuoteCardRepository.save(dailyQuoteCard);
+    }
+
+    public void deleteById(final Long id) {
+        dailyQuoteCardRepository.deleteById(id);
     }
 
     @Transactional(readOnly = true)
@@ -37,20 +52,9 @@ public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
         LocalDate today = LocalDate.now(ZoneOffset.UTC);
         log.debug("Fetching DailyQuoteCard for {}", today);
 
-        var quoteOpt = quoteService.findByDate(today);
+        var quoteCardOpt = dailyQuoteCardRepository.findByDate(today);
 
-        if (quoteOpt.isPresent()) {
-            log.debug("Found Quote for {}. Generating DailyQuoteCard", today);
-            var quote = quoteOpt.get();
-            var dailyCard = quoteMapper.toCard(quote)
-                .toBuilder().title(CARD_TITLE).build();
-
-            if (checkImplementations(dailyCard)) {
-                return List.of(dailyCard);
-            }
-        }
-
-        return Collections.emptyList();
+        return quoteCardOpt.<List<Card>>map(List::of).orElse(Collections.emptyList());
     }
 
     public boolean checkImplementations(DailyQuoteCard card) {

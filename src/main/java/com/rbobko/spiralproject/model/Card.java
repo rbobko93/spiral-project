@@ -1,30 +1,32 @@
 package com.rbobko.spiralproject.model;
 
-import java.time.LocalDate;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Entity
 @Data
 @NoArgsConstructor
-public class Quote {
+@SuperBuilder(toBuilder = true)
+@MappedSuperclass
+public abstract class Card {
 
     @Id
     @GeneratedValue
     private Long id;
 
     @NotEmpty
-    private String message;
+    private String title;
 
     @NotEmpty
-    private String author;
+    private String message;
 
     @NotNull
-    private LocalDate date;
-
+    @Default
+    private CardType type = CardType.UNKNOWN;
 }

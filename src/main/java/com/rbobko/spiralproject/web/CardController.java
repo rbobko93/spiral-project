@@ -1,6 +1,6 @@
 package com.rbobko.spiralproject.web;
 
-import com.rbobko.spiralproject.model.dto.Card;
+import com.rbobko.spiralproject.model.Card;
 import com.rbobko.spiralproject.service.card.CardService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
