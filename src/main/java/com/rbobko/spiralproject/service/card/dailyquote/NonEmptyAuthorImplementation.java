@@ -1,8 +1,8 @@
 package com.rbobko.spiralproject.service.card.dailyquote;
 
 import com.rbobko.spiralproject.model.DailyQuoteCard;
-import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,6 +12,6 @@ public class NonEmptyAuthorImplementation implements DailyQuoteCardImplementatio
     @Override
     public boolean check(DailyQuoteCard card) {
         log.debug("Running {} check on {}", this.getClass().getSimpleName(), card);
-        return Objects.nonNull(card.getAuthor());
+        return Strings.isNotEmpty(card.getAuthor());
     }
 }
