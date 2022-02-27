@@ -3,6 +3,7 @@ package com.rbobko.spiralproject.model;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.Builder.Default;
@@ -21,12 +22,10 @@ public abstract class Card {
     private Long id;
 
     @NotEmpty
-    private String title;
-
-    @NotEmpty
     private String message;
 
     @NotNull
     @Default
+    @Transient
     private CardType type = CardType.UNKNOWN;
 }

@@ -3,6 +3,7 @@ package com.rbobko.spiralproject.model;
 
 import java.time.LocalDate;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.Builder.Default;
@@ -16,6 +17,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class DailyQuoteCard extends Card {
 
+    @Transient
+    @Default
+    private String title = "Daily Quote";
+
     @NotEmpty
     private String author;
 
@@ -23,5 +28,6 @@ public class DailyQuoteCard extends Card {
     private LocalDate date;
 
     @Default
+    @Transient
     private CardType type = CardType.DAILY_QUOTE;
 }

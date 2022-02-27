@@ -5,7 +5,7 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
 
   <changeSet id="00000000000001" author="rbobko" context="dev">
-    <loadData tableName="quote"
+    <loadData tableName="daily_quote_card"
       file="db/data/quote.csv"
       separator=";">
       <column name="id" type="numeric"/>
@@ -14,14 +14,14 @@
       <column name="date" type="date"/>
     </loadData>
 
-    <loadData tableName="status"
+    <loadData tableName="status_update_card"
       file="db/data/status.csv"
       separator=";">
       <column name="id" type="numeric"/>
       <column name="title" type="string"/>
       <column name="message" type="string"/>
-      <column name="icon_url" type="string"/>
-      <column name="button_text" type="string"/>
+      <column name="icon" type="string"/>
+      <column name="button" type="string"/>
     </loadData>
   </changeSet>
 
