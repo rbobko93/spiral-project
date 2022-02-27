@@ -1,6 +1,7 @@
 package com.rbobko.spiralproject.model.dto;
 
 import javax.validation.constraints.NotEmpty;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -8,13 +9,15 @@ import lombok.experimental.SuperBuilder;
 @Data
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public abstract class Card {
+public class StatusUpdateCard extends Card {
 
     @NotEmpty
-    private String title;
+    private String icon;
 
     @NotEmpty
-    private String message;
+    private String button;
 
-    private CardType type;
+    @Default
+    private CardType type = CardType.STATUS_UPDATE;
+
 }
