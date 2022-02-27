@@ -1,7 +1,11 @@
 package com.rbobko.spiralproject.service.card;
 
 import com.rbobko.spiralproject.model.Card;
+import com.rbobko.spiralproject.model.CardType;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -14,19 +18,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class CardService {
 
     private final List<CardFeedProvider<?>> cardFeedProviders;
-    private final CardImplementationDispatcher cardImplementationDispatcher;
+    private final Map<CardType, List<CardImplementation<?>>> cardImplementationTypeMap;
 
-    public CardService(List<CardFeedProvider<?>> cardFeedProviders,
-        CardImplementationDispatcher cardImplementationDispatcher) {
+    public CardService(List<CardFeedProvider<?>> cardFeedProviders, List<CardImplementation<?>> cardImplementations) {
         this.cardFeedProviders = cardFeedProviders;
-        this.cardImplementationDispatcher = cardImplementationDispatcher;
+        this.cardImplementationTypeMap = cardImplementations.stream()
+            .collect(Collectors.groupingBy(CardImplementation::getType));
     }
 
     @Transactional(readOnly = true)
     public List<Card> getCardsFeed(final HttpServletRequest request) {
         log.debug("Fetching feed of Cards");
         return retrieveCards(request)
-            .stream().filter(c -> cardImplementationDispatcher.check(c, request))
+            .stream().filter(c -> checkImplementations(c, request))
             .collect(Collectors.toList());
     }
 
@@ -35,6 +39,20 @@ public class CardService {
         return cardFeedProviders.stream()
             .flatMap(cfd -> cfd.getCardFeed(request).stream())
             .collect(Collectors.toList());
+    }
+
+    public boolean checkImplementations(Card card, HttpServletRequest request) {
+        var type = card.getType();
+        var implementations = Optional.ofNullable(cardImplementationTypeMap.get(type))
+            .orElse(Collections.emptyList());
+
+        for (CardImplementation<?> implementation : implementations) {
+            if (!implementation.check(card, request)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
