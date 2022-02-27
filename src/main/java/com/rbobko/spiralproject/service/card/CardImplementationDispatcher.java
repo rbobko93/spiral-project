@@ -5,7 +5,6 @@ import com.rbobko.spiralproject.model.CardType;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CardImplementationDispatcher {
 
-    private Map<CardType, List<CardImplementation<?>>> cardImplementationTypeMap;
+    private final Map<CardType, List<CardImplementation<?>>> cardImplementationTypeMap;
 
     public CardImplementationDispatcher(List<CardImplementation<?>> cardImplementations) {
         cardImplementationTypeMap = cardImplementations.stream()

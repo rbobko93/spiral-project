@@ -1,5 +1,6 @@
 package com.rbobko.spiralproject.web;
 
+import com.rbobko.spiralproject.model.CardType;
 import com.rbobko.spiralproject.model.DailyQuoteCard;
 import com.rbobko.spiralproject.service.card.dailyquote.DailyQuoteCardService;
 import java.util.List;
@@ -27,21 +28,24 @@ public class DailyQuoteCardController {
         this.dailyQuoteCardService = dailyQuoteCardService;
     }
 
-    // todo add create/update dto and logs
+    // todo add create/update dto
 
     @GetMapping("/{id}")
     public ResponseEntity<DailyQuoteCard> getById(@PathVariable final Long id) {
+        log.debug("REST request to get DailyQuoteCard with id: {}", id);
         return ResponseEntity.of(dailyQuoteCardService.findById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<DailyQuoteCard>> getAll() {
+        log.debug("REST request to get all DailyQuoteCards");
         return ResponseEntity.ok(dailyQuoteCardService.findAll());
     }
 
     @PostMapping
     public ResponseEntity<DailyQuoteCard> createCard(@RequestBody @Valid DailyQuoteCard dailyQuoteCard) {
-        if (Objects.nonNull(dailyQuoteCard.getId())) {
+        log.debug("REST request to create new DailyQuoteCard");
+        if (Objects.nonNull(dailyQuoteCard.getId()) || !dailyQuoteCard.getType().equals(CardType.DAILY_QUOTE)) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -50,15 +54,18 @@ public class DailyQuoteCardController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DailyQuoteCard> update(@RequestBody @Valid DailyQuoteCard dailyQuoteCard) {
-        if (Objects.isNull(dailyQuoteCard.getId())) {
+        if (Objects.isNull(dailyQuoteCard.getId()) || !dailyQuoteCard.getType().equals(CardType.DAILY_QUOTE)) {
             return ResponseEntity.badRequest().build();
         }
+
+        log.debug("REST request to update DailyQuoteCard with id: {}", dailyQuoteCard.getId());
 
         return ResponseEntity.ok(dailyQuoteCardService.save(dailyQuoteCard));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable final Long id) {
+        log.debug("REST request to delete DailyQuoteCard with id: {}", id);
         dailyQuoteCardService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
