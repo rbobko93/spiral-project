@@ -1,6 +1,7 @@
 package com.rbobko.spiralproject.model;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -18,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 public abstract class Card {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty

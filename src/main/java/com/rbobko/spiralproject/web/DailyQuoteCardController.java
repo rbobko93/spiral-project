@@ -1,12 +1,15 @@
 package com.rbobko.spiralproject.web;
 
+import com.rbobko.spiralproject.mapper.DailyQuoteCardMapper;
 import com.rbobko.spiralproject.model.CardType;
 import com.rbobko.spiralproject.model.DailyQuoteCard;
+import com.rbobko.spiralproject.model.dto.DailyQuoteCardUpdateDTO;
 import com.rbobko.spiralproject.service.card.dailyquote.DailyQuoteCardService;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class DailyQuoteCardController {
 
     private final DailyQuoteCardService dailyQuoteCardService;
+    private final DailyQuoteCardMapper dailyQuoteCardMapper;
 
-    public DailyQuoteCardController(DailyQuoteCardService dailyQuoteCardService) {
+    public DailyQuoteCardController(DailyQuoteCardService dailyQuoteCardService,
+        DailyQuoteCardMapper dailyQuoteCardMapper) {
         this.dailyQuoteCardService = dailyQuoteCardService;
+        this.dailyQuoteCardMapper = dailyQuoteCardMapper;
     }
 
     // todo add create/update dto
@@ -43,17 +49,20 @@ public class DailyQuoteCardController {
     }
 
     @PostMapping
-    public ResponseEntity<DailyQuoteCard> createCard(@RequestBody @Valid DailyQuoteCard dailyQuoteCard) {
+    public ResponseEntity<DailyQuoteCard> createCard(@RequestBody @Valid DailyQuoteCardUpdateDTO dailyQuoteCard) {
         log.debug("REST request to create new DailyQuoteCard");
-        if (Objects.nonNull(dailyQuoteCard.getId()) || !dailyQuoteCard.getType().equals(CardType.DAILY_QUOTE)) {
+        if (Objects.nonNull(dailyQuoteCard.getId())) {
             return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(dailyQuoteCardService.save(dailyQuoteCard));
+        var entity = dailyQuoteCardMapper.toEntity(dailyQuoteCard);
+
+        return ResponseEntity.ok(dailyQuoteCardService.save(entity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DailyQuoteCard> update(@RequestBody @Valid DailyQuoteCard dailyQuoteCard) {
+    public ResponseEntity<DailyQuoteCard> update(@RequestBody @Valid DailyQuoteCardUpdateDTO dto) {
+        var dailyQuoteCard = dailyQuoteCardMapper.toEntity(dto);
         if (Objects.isNull(dailyQuoteCard.getId()) || !dailyQuoteCard.getType().equals(CardType.DAILY_QUOTE)) {
             return ResponseEntity.badRequest().build();
         }
