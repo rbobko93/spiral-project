@@ -85,7 +85,7 @@ class DailyQuoteRepositoryIT {
         var result = repository.findByDate(LocalDate.now());
 
         // Then
-        assertThat(result).hasSize(0);
+        assertThat(result).isEmpty();
     }
 
 }

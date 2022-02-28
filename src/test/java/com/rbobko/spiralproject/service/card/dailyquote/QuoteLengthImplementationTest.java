@@ -6,7 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.rbobko.spiralproject.model.DailyQuoteCard;
 import com.rbobko.spiralproject.model.StatusUpdateCard;
 import java.time.LocalDate;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class QuoteLengthImplementationTest {
 
@@ -26,41 +29,18 @@ class QuoteLengthImplementationTest {
         assertThat(quoteLengthImplementation.check(card, null)).isTrue();
     }
 
-    @Test
-    void testCheck_Empty() {
-        // Given
-        var card = DailyQuoteCard.builder()
-            .id(1L)
-            .date(LocalDate.now())
-            .message("")
-            .author("author1")
-            .build();
-
-        // When
-        assertThat(quoteLengthImplementation.check(card, null)).isFalse();
+    static Stream<String> checkStrings() {
+        return Stream.of("", "qu", null);
     }
 
-    @Test
-    void testCheck_Short() {
+    @ParameterizedTest
+    @MethodSource("checkStrings")
+    void testCheck_False(String v) {
         // Given
         var card = DailyQuoteCard.builder()
             .id(1L)
             .date(LocalDate.now())
-            .message("qu")
-            .author("author1")
-            .build();
-
-        // When
-        assertThat(quoteLengthImplementation.check(card, null)).isFalse();
-    }
-
-    @Test
-    void testCheck_Null() {
-        // Given
-        var card = DailyQuoteCard.builder()
-            .id(1L)
-            .date(LocalDate.now())
-            .message(null)
+            .message(v)
             .author("author1")
             .build();
 
