@@ -28,8 +28,8 @@ public class StatusUpdateCardService implements CardFeedProvider<StatusUpdateCar
         return statusUpdateCardRepository.findAll();
     }
 
-    public StatusUpdateCard save(final StatusUpdateCard dailyQuoteCard) {
-        return statusUpdateCardRepository.save(dailyQuoteCard);
+    public StatusUpdateCard save(final StatusUpdateCard statusUpdateCard) {
+        return statusUpdateCardRepository.save(statusUpdateCard);
     }
 
     public void deleteById(final Long id) {
