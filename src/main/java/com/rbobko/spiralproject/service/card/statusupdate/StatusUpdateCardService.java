@@ -5,7 +5,6 @@ import com.rbobko.spiralproject.repository.StatusUpdateCardRepository;
 import com.rbobko.spiralproject.service.card.CardFeedProvider;
 import java.util.List;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +38,7 @@ public class StatusUpdateCardService implements CardFeedProvider<StatusUpdateCar
 
     @Override
     @Transactional(readOnly = true)
-    public List<StatusUpdateCard> getCardFeed(HttpServletRequest request) {
+    public List<StatusUpdateCard> getCardFeed() {
         log.debug("Fetching StatusUpdate cards");
         return findAll();
     }

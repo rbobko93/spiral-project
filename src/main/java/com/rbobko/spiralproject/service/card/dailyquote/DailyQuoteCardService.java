@@ -45,7 +45,7 @@ public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
     }
 
     @Transactional(readOnly = true)
-    public List<DailyQuoteCard> getCardFeed(final HttpServletRequest request) {
+    public List<DailyQuoteCard> getCardFeed() {
         LocalDate today = LocalDate.now(ZoneOffset.UTC);
         log.debug("Fetching DailyQuoteCard for {}", today);
 

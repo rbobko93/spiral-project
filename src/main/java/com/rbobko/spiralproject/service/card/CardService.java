@@ -29,15 +29,15 @@ public class CardService {
     @Transactional(readOnly = true)
     public List<Card> getCardsFeed(final HttpServletRequest request) {
         log.debug("Fetching feed of Cards");
-        return retrieveCards(request)
+        return retrieveCards()
             .stream().filter(c -> checkImplementations(c, request))
             .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<Card> retrieveCards(final HttpServletRequest request) {
+    public List<Card> retrieveCards() {
         return cardFeedProviders.stream()
-            .flatMap(cfd -> cfd.getCardFeed(request).stream())
+            .flatMap(cfd -> cfd.getCardFeed().stream())
             .collect(Collectors.toList());
     }
 
