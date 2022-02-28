@@ -1,5 +1,8 @@
 package com.rbobko.spiralproject.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +19,11 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 @MappedSuperclass
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.EXISTING_PROPERTY, property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = DailyQuoteCard.class, name = "DAILY_QUOTE"),
+    @JsonSubTypes.Type(value = StatusUpdateCard.class, name = "STATUS_UPDATE")
+})
 public abstract class Card {
 
     @Id
