@@ -5,6 +5,7 @@ spring:
     password: password
   liquibase:
     change-log: classpath:db/db.changelog-master.xml
+    enabled: true
 
 springdoc:
   api-docs:

@@ -1,25 +1,16 @@
-package com.rbobko.spiralproject.model;
+package com.rbobko.spiralproject.model.dto;
 
 import java.time.LocalDate;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Entity
 @Data
 @NoArgsConstructor
-public class Quote {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @NotEmpty
-    private String message;
+@SuperBuilder(toBuilder = true)
+public class DailyQuoteCardUpdateDTO extends CardDTO {
 
     @NotEmpty
     private String author;

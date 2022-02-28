@@ -1,2 +1,2 @@
-id;title;message;icon_url;button_text
+id;title;message;icon;button
 1;Important Security Update;For your security, we support 2 factor authentication, and would recommend that you turn it on.;https://tinyurl.com/y5mdph2g;Got it, thanks

@@ -8,13 +8,15 @@ import lombok.experimental.SuperBuilder;
 @Data
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public abstract class Card {
+public class StatusUpdateCardUpdateDTO extends CardDTO {
 
     @NotEmpty
     private String title;
 
     @NotEmpty
-    private String message;
+    private String icon;
 
-    private CardType type;
+    @NotEmpty
+    private String button;
+
 }

@@ -5,7 +5,7 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
   
   <changeSet id="00000000000000" author="rbobko">
-    <createTable tableName="quote">
+    <createTable tableName="daily_quote_card">
       <column name="id" type="bigint" autoIncrement="true">
         <constraints primaryKey="true" nullable="false"/>
       </column>
@@ -20,8 +20,8 @@
       </column>
     </createTable>
 
-    <createTable tableName="status">
-      <column name="id" type="bigint">
+    <createTable tableName="status_update_card">
+      <column name="id" type="bigint" autoIncrement="true">
         <constraints primaryKey="true" nullable="false"/>
       </column>
       <column name="title" type="varchar(255)">
@@ -30,10 +30,10 @@
       <column name="message" type="clob">
         <constraints nullable="false"/>
       </column>
-      <column name="icon_url" type="varchar(255)">
+      <column name="icon" type="varchar(255)">
         <constraints nullable="false"/>
       </column>
-      <column name="button_text" type="varchar(255)">
+      <column name="button" type="varchar(255)">
         <constraints nullable="false"/>
       </column>
     </createTable>
