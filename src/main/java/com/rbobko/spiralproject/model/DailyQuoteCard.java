@@ -1,6 +1,7 @@
 package com.rbobko.spiralproject.model;
 
 
+import com.rbobko.spiralproject.service.card.dailyquote.DailyQuoteCardService;
 import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -19,7 +20,7 @@ public class DailyQuoteCard extends Card {
 
     @Transient
     @Default
-    private String title = "Daily Quote";
+    private String title = DailyQuoteCardService.CARD_TITLE;
 
     @NotEmpty
     private String author;

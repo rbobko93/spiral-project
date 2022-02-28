@@ -1,6 +1,5 @@
 package com.rbobko.spiralproject.service.card.dailyquote;
 
-import com.rbobko.spiralproject.model.Card;
 import com.rbobko.spiralproject.model.DailyQuoteCard;
 import com.rbobko.spiralproject.repository.DailyQuoteCardRepository;
 import com.rbobko.spiralproject.service.card.CardFeedProvider;
@@ -19,14 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
 
-    private static final String CARD_TITLE = "Daily Quote";
+    public static final String CARD_TITLE = "Daily Quote";
 
     private final DailyQuoteCardRepository dailyQuoteCardRepository;
-    private final List<DailyQuoteCardImplementation> dailyQuoteCardImplementations;
 
     public DailyQuoteCardService(
-        List<DailyQuoteCardImplementation> dailyQuoteCardImplementations, DailyQuoteCardRepository dailyQuoteCardRepository) {
-        this.dailyQuoteCardImplementations = dailyQuoteCardImplementations;
+        DailyQuoteCardRepository dailyQuoteCardRepository) {
         this.dailyQuoteCardRepository = dailyQuoteCardRepository;
     }
 
@@ -52,9 +49,9 @@ public class DailyQuoteCardService implements CardFeedProvider<DailyQuoteCard> {
         LocalDate today = LocalDate.now(ZoneOffset.UTC);
         log.debug("Fetching DailyQuoteCard for {}", today);
 
-        var quoteCardOpt = dailyQuoteCardRepository.findByDate(today);
+        var quoteCards = dailyQuoteCardRepository.findByDate(today);
 
-        return quoteCardOpt.map(List::of).orElse(Collections.emptyList());
+        return quoteCards.stream().findFirst().map(List::of).orElse(Collections.emptyList());
     }
 
 }
