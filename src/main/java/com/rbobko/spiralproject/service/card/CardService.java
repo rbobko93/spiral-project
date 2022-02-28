@@ -34,14 +34,13 @@ public class CardService {
             .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<Card> retrieveCards() {
+    private List<Card> retrieveCards() {
         return cardFeedProviders.stream()
             .flatMap(cfd -> cfd.getCardFeed().stream())
             .collect(Collectors.toList());
     }
 
-    public boolean checkImplementations(Card card, HttpServletRequest request) {
+    private boolean checkImplementations(Card card, HttpServletRequest request) {
         var type = card.getType();
         var implementations = Optional.ofNullable(cardImplementationTypeMap.get(type))
             .orElse(Collections.emptyList());

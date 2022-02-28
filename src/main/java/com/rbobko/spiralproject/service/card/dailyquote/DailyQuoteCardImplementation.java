@@ -13,7 +13,7 @@ public abstract class DailyQuoteCardImplementation implements CardImplementation
     }
 
     public DailyQuoteCard toSpecificCardClass(Card card) {
-        Assert.isInstanceOf(DailyQuoteCard.class, String.format("%s not of type %s", card, DailyQuoteCard.class.getSimpleName()));
+        Assert.isInstanceOf(DailyQuoteCard.class, card, String.format("%s not of type %s", card, DailyQuoteCard.class.getSimpleName()));
         return (DailyQuoteCard) card;
     }
 
